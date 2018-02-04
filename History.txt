@@ -1,0 +1,103 @@
+ Aug. 19, 2011
+   We fixed several bugs that are newly found after changing the compliler 
+(from g77 to gfortran or g95). 
+
+For "ipf.f", it is no more allowed to open the same file at the several different "open" file port.
+So I changed writing/reading code, by spilitting all reading/writin points as a separate loop.
+
+For "mccnp.f", there was one array exception, pointing out of boudary of the array in line 41. 
+Line41   cf12 = sbar(iobj(i))  wrong code ---->>> cf12 = sbar(iobj(inobj))  correct code
+
+For "main.f" npproc was defined as integer*8, but it was not consisten with other subroutine. I just changed it as integer.
+
+----------------------------------
+November 19, 2013
+ Fixed one bug in mccnp.f
+ The s2, which is a distance between banch object and the current photon position, should be refreshed everytime when the position of photon changes.
+Line 288- is rewritenn as follows
+                  if(tsobj .eq. 1) then
+                     call cones
+     &                    (s12, x, y, z, ux, uy, uz, tobj12, face, io12)
+                    call cones
+     &                    (s2, x, y, z, ux, uy, uz, tobjb, face, io2)
+                  else if(tsobj .eq. 2) then
+                     call cyls
+     &                    (s12, x, y, z, ux, uy, uz, tobj12, face, io12)
+                    call  cyls
+     &                    (s2, x, y, z, ux, uy, uz, tobjb, face, io2)
+                  else if(tsobj .eq. 3) then
+                     call elpss(s12, x ,y ,z ,ux ,uy ,uz ,tobj12, io12)
+                     call elpss(s2, x ,y ,z ,ux ,uy ,uz ,tobjb, io2)
+                  else if
+The original was:
+                  if(tsobj .eq. 1) then	
+                     call cones	
+     &                    (s12,x, y, z, ux, uy, uz, tobj12, face, io12)
+                  else if(tsobj .eq. 2)    then
+                     call cyls	
+     &                    (s12, x, y, z, ux, uy, uz, tobj12, face, io12)
+                  else if(tsobj .eq. 3) then
+                     call elpss(s12, x ,y ,z ,ux ,uy ,uz ,tobj12, io12)
+                  else if
+
+
+-----
+February 17, 2017
+
+mc1dtrace.f 
+
+around line 107
+ixr, iyr may become over knxr knyr (default=300).
+The mimimun function was added.
+ixr = min(ixr, knxr) 
+iyr = min(iyr, knyr) 
+
+
+——
+February 28, 2017
+wdata.f
+The quantum unit and energy unit were mixed up when computing the vertical fapar.
+This was pointed out by Hideaki Kamiya, U of Tokyo
+Previous line 86, 87: 
+         app(k) = app(k) / (tflx * real(size * size))
+         apnp(k) = apnp(k) * RQ * abs(cosq0) / real(np) / tflx
+
+Corrected line 86, 87: 
+         app(k) = app(k) / (tpfd * real(size * size))
+         apnp(k) = apnp(k) * RQ * abs(cosq0) / real(np) / tpfd
+
+
+——
+March 7, 2017
+rparam.f
+For LAI calculation and gap fraction calculation modes.
+The boundary condition was not set as periodic boundary, 
+This was pointed out by Hideaki Kamiya, U of Tokyo
+
+In rparam.f in line 611, 
+I omit the bound=1 out of if((bound .ne. 1) .and. (bound .ne. 2))then
+
+
+
+——
+May 1, 2017
+vegrad.f
+To avoid zero-deivided, I added two lines after L77-82. 
+
+ ga = ga + dlt(cb, 6) * 1.e-6
+ ch = ch + dlt(cb, 6) * 1.e-6
+
+——
+May 10, 2017
+ 
+wdata.f
+Added a if-clause not to show the spectral composition when monochromatic mode
+
+---
+July 4th, 2017
+
+rparam.f line 667: add the formula "nth = nth - 1" to subtract the angle for sza > 80.
+
+--
+January 11, 2018
+Some comments were modified and added in the source code. 
