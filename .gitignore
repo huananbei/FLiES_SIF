@@ -4,6 +4,7 @@
 *.xml
 .idea/
 *.DS_Store
+._*.f
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
