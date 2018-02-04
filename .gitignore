@@ -5,6 +5,7 @@
 .idea/
 *.DS_Store
 ._*.f
+._*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
