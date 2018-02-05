@@ -14,12 +14,12 @@ $(TARGET1) : $(OBJ)
 
 .f.o :
 	$(FC) -c $(FFLAGS1)  $< -o $@
-
+	
 clean :
 	rm -f ./*.o
 
 install :
-	mv flies ../.
+	mv flies ../
 
 distclean :
 	rm -f ./*.o $(TARGET1)

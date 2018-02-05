@@ -53,7 +53,8 @@ c      include 'mpif.h'
 !     --- set by rparam
       integer np
       integer npl(200),nmix
-      integer amode,imode,cmode
+!     --- fmode for SIF
+      integer amode,imode,cmode,fmode 
       integer stype
       real alb(100)
       real dif,phi,th,ph, tgx, tgy
@@ -117,7 +118,7 @@ c      open(51, file = "init.inp")
 !     Read required parameters
       write(*,*) "rparam"
       call rparam(
-     &     np,amode,cmode,imode,nwl,npl,nmix,
+     &     np,amode,cmode,imode,fmode,nwl,npl,nmix,
      &     atype,rtype,stype,cbnz,ctnz,cflg,
      &     dif,th0,ph0,phi,th,ph,
      &     sinf0,cosf0,cosq0,sinq0,

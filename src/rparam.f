@@ -2,7 +2,7 @@
 !**********************************************  
 
       subroutine rparam(
-     &     np,amode,cmode,imode,nwl,npl,nmix,
+     &     np,amode,cmode,imode,fmode,nwl,npl,nmix,
      &     atype,rtype,stype,cbnz,ctnz,cflg,
      &     dif,th0,ph0,phi,th,ph,
      &     sinf0,cosf0,cosq0,sinq0,
@@ -22,7 +22,7 @@
       integer*8 temp_np
 
       integer np,npproc
-      integer Nprod,amode,imode,cmode,stype,nwl,iwl
+      integer Nprod,amode,imode,cmode,stype,nwl,iwl,fmode
       integer atype,rtype
       integer npl(200),nmix
       integer cbnz,ctnz,cflg, num
@@ -49,7 +49,7 @@
          endif
 
          write(*,*) "fish eye mode - selected"
-         call vegparam(np, nwl,cmode,wls,lr,lt,ulr,ult,
+         call vegparam(np, nwl,cmode,fmode,wls,lr,lt,ulr,ult,
      &        str,sor,span(1),num)
          stype = 2
          return
@@ -65,7 +65,7 @@
          endif
 
          write(*,*) "LAI calculation mode - selected"
-         call vegparam(np, nwl,cmode,wls,lr,lt,ulr,ult,
+         call vegparam(np, nwl,cmode,fmode,wls,lr,lt,ulr,ult,
      &        str,sor,span(1),num)
          stype = 2
          return
@@ -121,7 +121,7 @@
          end do
       elseif(stype .eq. 2)then
 
-         call vegparam(np, nwl,cmode,wls,lr,lt,ulr,ult
+         call vegparam(np, nwl,cmode,fmode,wls,lr,lt,ulr,ult
      &        ,str,sor,span(1),num)
 c         call paraminit(nwl,lr,lt,nts) <= modifir!!!!
       else
@@ -585,7 +585,7 @@ c         write(*,*) nwl
 !     last modified 05/05/26
 !  
 !**********************************************
-      subroutine vegparam(np, nwl,cmode,wls,lr,lt,ulr,ult,
+      subroutine vegparam(np, nwl,cmode,fmode,wls,lr,lt,ulr,ult,
      &     str,sor,span, num)
 
       implicit none
@@ -597,7 +597,7 @@ c         write(*,*) nwl
 
       real w,w1(5),w2,w0,umax
       real tp(1000),ctemp,wls,span
-      integer i,j,k,m,Obj_nt,nwl,cmode
+      integer i,j,k,m,Obj_nt,nwl,cmode,fmode
       real lr(5,*),lt(5,*),ulr(*),ult(*),str(5,*),sor(*)
       real ramda,avelr,avelt
       real max, min, p1, p2, a(4), b(4), c(4), cc(4)
@@ -839,6 +839,10 @@ c         write(*,*) nwl
          write(*,*) "For broadleaves, please input 0.25"
          read(num,*) (sbar(i), i = 1, nts)
       end if
+
+      !SIF
+      write(*,*) "fmode: active SIF simulation? 1: on; 0: off"
+      read(num,*)  fmode
 
       umax = u(1)
       do i = 2, nts
