@@ -7,10 +7,15 @@
 ._*.f
 ._*
 flies
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
+flies.dSYM
+
+# fortran
+*.o
 
 # C extensions
 *.so
