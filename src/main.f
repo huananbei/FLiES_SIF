@@ -29,6 +29,9 @@ c      include 'mpif.h'
       integer nscat, nscata, ichi, ikd
       real x,y,z,ux,uy,uz,w
 
+!     --- SIF data  ---
+      integer wf
+
 !     --- function parapeters ----
       real fsin, fcos, facos, r_acos
       real*8 frnd
@@ -293,6 +296,9 @@ c      call MPI_Barrier(MPI_COMM_WORLD,ierr)
                ux = sinq0 * cosf0
                uy = sinq0 * sinf0
                uz = cosq0
+
+               ! SIF
+               wf = 0
 
                ftau = -log(max(1.0e-35, real(frnd())))
                chi = 1.0
